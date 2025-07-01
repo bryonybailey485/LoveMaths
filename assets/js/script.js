@@ -12,6 +12,12 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    document.getElementById("answer-box").addEventListener("keydown", function(event) {
+        if (event.key === "Enter"){
+            checkAnswer();
+        }
+    });
+
     runGame("addition");
 
 });
@@ -19,22 +25,30 @@ document.addEventListener("DOMContentLoaded", function () {
 /**
  * The main game "loop", called when the script is first loaded
  * and after the user's answer has been processed
- */
-
+*/
 function runGame(gameType) {
+
+    document.getElementById("answer-box").value ="";
+    document.getElementById("answer-box").focus();
+
 
     let num1 = Math.floor(Math.random() * 25) + 1;
     let num2 = Math.floor(Math.random() * 25) + 1;
 
 
     if (gameType === "addition") {
-
         displayAdditionQuestion(num1, num2);
-    } 
-    {else {
+    } else if (gameType === "subtract") {
+        displaySubtractionQuestion(num1, num2);
+    } else if (gameType === "multiply") {
+        displaySubtractionQuestion(num1, num2);
+    } else if (gameType === "division") {
+        displayDivisionQuestion(num1, num2);
+    } else {
         alert(`Unknown game type: ${gameType}`);
         throw `Unknown game type: ${gameType}. Aborting!`;
-    } 
+    }
+
 }
 /**
  * This function checks the answer against the first element 
@@ -47,8 +61,10 @@ function checkAnswer() {
 
     if (isCorrect) {
         alert("Correct Answer");
+        incrementScore();
     } else {
         alert(`You answered incorrectly, the correct answer is ${calculatedAnswer}`);
+        incrementWrongAnswer();
     }
 
     runGame(calculatedAnswer[1]);
@@ -65,10 +81,23 @@ function calculateCorrectAnswer() {
 
     if (operator === "+") {
         return [operand1 + operand2, "addition"];
+    } else if (operator === "x") {
+        return [operand1 * operand2, "multiply"];
+    } else if (operator === "-") {
+        return [operand1 - operand2, "subtract"];
+    } else if (operator === "/") {
+        return [operand1 / operand2, "division"];
     } else {
         alert(`Unimplemented operator ${operator}`);
         throw `Unimplemented operator ${operator}. Aborting`;
     }
+
+    // if (operator === "+") {
+    //     return [operand1 + operand2, "addition"];
+    // } else {
+    //     alert(`Unimplemented operator ${operator}`);
+    //     throw `Unimplemented operator ${operator}. Aborting`;
+    // }
 
 }
 
